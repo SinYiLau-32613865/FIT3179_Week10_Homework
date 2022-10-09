@@ -1,0 +1,77 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 500,
+  "height": 400,
+  "title": "Top 10 Countries with the Highest Average IQ",
+  "data": {
+    "url": "https://raw.githubusercontent.com/SinYiLau-32613865/FIT3179_Week10_Homework/main/csvData.csv"
+  },
+  "params": [
+    {
+      "name": "Coountry_selection",
+      "bind": {
+        "input": "select",
+        "options": [
+          null,
+          "Belarus",
+          "China",
+          "Finland",
+          "Germany",
+          "Hong Kong",
+          "Japan",
+          "Liechtenstein",
+          "Singapore",
+          "South Korea",
+          "Taiwan"
+        ],
+        "labels": [
+          "Show All",
+          "Belarus",
+          "China",
+          "Finland",
+          "Germany",
+          "Hong Kong",
+          "Japan",
+          "Liechtenstein",
+          "Singapore",
+          "South Korea",
+          "Taiwan"
+        ],
+        "name": "Country Selection: "
+      },
+      "views": ["layer_0"]
+    }
+  ],
+  "transform": [
+    {"window": [{"op": "count", "as": "count"}]},
+    {"filter": "datum.count <= 10"},
+    {
+      "filter": "Coountry_selection == null || datum.Country == Coountry_selection"
+    }
+  ],
+  "encoding": {
+    "x": {"field": "IQ", "type": "quantitative"},
+    "y": {
+      "field": "Country",
+      "type": "nominal",
+      "sort": {"field": "IQ", "order": "descending"}
+    }
+  },
+  "layer": [
+    {
+      "name": "layer_0",
+      "mark": "bar",
+      "encoding": {
+        "tooltip": [
+          {"field": "Country", "type": "nominal"},
+          {"field": "IQ", "type": "quantitative"}
+        ]
+      }
+    },
+    {
+      "mark": {"type": "text", "align": "left", "dx": 3},
+      "encoding": {"text": {"field": "IQ", "type": "quantitative"}}
+    }
+  ],
+  "config": {}
+}
